@@ -51,15 +51,6 @@ const Experience = () => {
                       <span>{exp.location}</span>
                     </div>
                   </div>
-
-                  <ul className="space-y-3">
-                    {exp.achievements.map((achievement, achIndex) => (
-                      <li key={achIndex} className="text-white/80 flex items-start">
-                        <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <span>{achievement}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </div>
               </div>
             </div>
