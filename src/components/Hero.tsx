@@ -31,7 +31,7 @@ const Hero = () => {
           <div className="w-48 h-48 mx-auto mb-8 relative">
             <div className="w-full h-full rounded-full bg-gradient-to-r from-pink-500 to-purple-600 p-1 animate-pulse">
               <img
-                src="/lovable-uploads/432be41e-7804-4e96-8993-a8e212825155.png"
+                src="src/Ashwin.jpg"
                 alt="Ashwin Ravichandran"
                 className="w-full h-full rounded-full object-cover"
               />
