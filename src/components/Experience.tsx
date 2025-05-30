@@ -5,35 +5,19 @@ const Experience = () => {
       company: "QuSocial (University at Buffalo)",
       role: "Technical Product Manager",
       period: "Feb 2025 - May 2025",
-      location: "Buffalo, NY",
-      achievements: [
-        "Led Qu Pulse, a 0-to-1 analytics tool, from scratch to launch in 4 months",
-        "Delivered real-time news insights, enhancing decision-making speed by 25%",
-        "Organized Agile sprints with clear sprint goals and maintained a 3-sprint refined backlog"
-      ]
+      location: "Buffalo, NY"
     },
     {
       company: "CDW Corporation",
       role: "Product Manager",
       period: "Oct 2022 - May 2024",
-      location: "Vernon Hills, IL (Remote)",
-      achievements: [
-        "Owned ServiceNow product roadmap for two large enterprise clients",
-        "Developed HR automation tool reducing manual processes by 90%",
-        "Enhanced ITSM and VRM modules, improving performance by 25%",
-        "Mentored 8+ interns and led recruitment interviews"
-      ]
+      location: "Vernon Hills, IL (Remote)"
     },
     {
       company: "Infosys Limited",
       role: "Product Manager",
       period: "May 2021 - Oct 2022",
-      location: "India",
-      achievements: [
-        "Developed customer onboarding platforms using React.js and REST APIs",
-        "Released 10+ new features, improving engagement by 20% and form accuracy by 70%",
-        "Reduced API integration errors by 30% through validation strategies"
-      ]
+      location: "India"
     }
   ];
 
