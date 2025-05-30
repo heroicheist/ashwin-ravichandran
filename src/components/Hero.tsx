@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { ChevronDown, Download } from 'lucide-react';
 
@@ -25,18 +24,18 @@ const Hero = () => {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 pt-20">
+    <section className="min-h-screen flex items-center justify-center px-4 pt-20 relative">
       <div className="max-w-6xl mx-auto text-center">
         <div className="mb-8 animate-fade-in">
-          <div className="w-48 h-48 mx-auto mb-8 relative">
-            <div className="w-full h-full rounded-full bg-gradient-to-r from-pink-500 to-purple-600 p-1 animate-pulse">
+          <div className="w-64 h-64 mx-auto mb-8 relative">
+            <div className="w-full h-full rounded-3xl bg-gradient-to-r from-pink-500 to-purple-600 p-1 shadow-2xl">
               <img
                 src="/lovable-uploads/a9568c1c-7d5a-48a5-8935-1045a4d43cef.png"
                 alt="Ashwin Ravichandran"
-                className="w-full h-full rounded-full object-cover"
+                className="w-full h-full rounded-3xl object-cover shadow-lg"
               />
             </div>
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-pink-500/20 to-purple-600/20 animate-ping"></div>
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-pink-500/10 to-purple-600/10 animate-pulse"></div>
           </div>
         </div>
 
@@ -76,11 +75,12 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <button onClick={scrollToAbout} className="text-white/60 hover:text-white transition-colors">
-            <ChevronDown size={32} />
-          </button>
-        </div>
+      </div>
+
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <button onClick={scrollToAbout} className="text-white/60 hover:text-white transition-colors">
+          <ChevronDown size={32} />
+        </button>
       </div>
     </section>
   );
