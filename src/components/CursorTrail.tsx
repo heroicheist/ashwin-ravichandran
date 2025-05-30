@@ -5,13 +5,14 @@ interface TrailPoint {
   x: number;
   y: number;
   id: number;
+  timestamp: number;
 }
 
 const CursorTrail = () => {
   const [trail, setTrail] = useState<TrailPoint[]>([]);
   const [isHovering, setIsHovering] = useState(false);
   const requestRef = useRef<number>();
-  const trailLength = 12;
+  const trailLength = 20;
   let idCounter = 0;
 
   useEffect(() => {
@@ -19,7 +20,8 @@ const CursorTrail = () => {
       const newPoint: TrailPoint = {
         x: e.clientX,
         y: e.clientY,
-        id: idCounter++
+        id: idCounter++,
+        timestamp: Date.now()
       };
 
       setTrail(prevTrail => {
@@ -32,7 +34,7 @@ const CursorTrail = () => {
     const handleMouseLeave = () => setIsHovering(false);
 
     // Check for interactive elements
-    const interactiveElements = document.querySelectorAll('button, a, [role="button"]');
+    const interactiveElements = document.querySelectorAll('button, a, [role="button"], input, textarea');
     
     interactiveElements.forEach(el => {
       el.addEventListener('mouseenter', handleMouseEnter);
@@ -55,24 +57,35 @@ const CursorTrail = () => {
 
   return (
     <div className="fixed inset-0 pointer-events-none z-50">
-      {trail.map((point, index) => (
-        <div
-          key={point.id}
-          className={`absolute w-3 h-3 rounded-full transition-all duration-300 ${
-            isHovering 
-              ? 'bg-gradient-to-r from-pink-400 to-purple-400 shadow-lg shadow-pink-500/50' 
-              : 'bg-gradient-to-r from-pink-500 to-purple-600 shadow-md shadow-purple-500/30'
-          }`}
-          style={{
-            left: point.x - 6,
-            top: point.y - 6,
-            opacity: Math.max(0, 1 - (index / trailLength) * 0.8),
-            transform: `scale(${Math.max(0.2, 1 - (index / trailLength) * 0.6)})`,
-            filter: `blur(${index * 0.3}px)`,
-            transitionDelay: `${index * 20}ms`,
-          }}
-        />
-      ))}
+      {trail.map((point, index) => {
+        const progress = index / trailLength;
+        const size = Math.max(2, 16 * (1 - progress * 0.9));
+        const opacity = Math.max(0, 1 - progress * 1.2);
+        const blur = progress * 1.5;
+        
+        return (
+          <div
+            key={point.id}
+            className={`absolute rounded-full transition-all duration-100 ${
+              isHovering 
+                ? 'bg-gradient-to-r from-cyan-400 via-pink-400 to-purple-500 shadow-lg' 
+                : 'bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-600 shadow-md'
+            }`}
+            style={{
+              left: point.x - size / 2,
+              top: point.y - size / 2,
+              width: `${size}px`,
+              height: `${size}px`,
+              opacity,
+              filter: `blur(${blur}px)`,
+              boxShadow: isHovering 
+                ? `0 0 ${size * 2}px rgba(236, 72, 153, 0.6), 0 0 ${size * 4}px rgba(147, 51, 234, 0.3)`
+                : `0 0 ${size * 1.5}px rgba(168, 85, 247, 0.5), 0 0 ${size * 3}px rgba(99, 102, 241, 0.2)`,
+              transitionDelay: `${index * 10}ms`,
+            }}
+          />
+        );
+      })}
     </div>
   );
 };
