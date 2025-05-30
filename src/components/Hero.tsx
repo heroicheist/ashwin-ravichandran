@@ -55,9 +55,7 @@ const Hero = () => {
           </div>
 
           <p className="text-lg md:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
-            Product leader with 3+ years of experience building enterprise software, AI tools, 
-            and workflow automation solutions. Proven success in leading cross-functional teams 
-            and delivering 0-to-1 products.
+            I obsess over problems because customers never ask for features — they ask for value.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
