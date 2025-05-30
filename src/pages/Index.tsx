@@ -7,6 +7,7 @@ import Experience from '@/components/Experience';
 import Skills from '@/components/Skills';
 import Contact from '@/components/Contact';
 import Navigation from '@/components/Navigation';
+import CursorTrail from '@/components/CursorTrail';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -34,6 +35,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+      <CursorTrail />
       <Navigation activeSection={activeSection} />
       <div id="home">
         <Hero />
