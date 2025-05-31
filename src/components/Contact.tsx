@@ -90,9 +90,9 @@ const Contact = () => {
                 Get a detailed overview of my experience, skills, and achievements in product management.
               </p>
               
-              <button className="px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold rounded-lg hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-pink-500/25 w-full">
+              <a href='https://drive.google.com/file/d/1m_5AmzkiKNkumSlqA86860n0txB5A-Zm/view?usp=sharing' className="px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold rounded-lg hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-pink-500/25 w-full">
                 Download Resume
-              </button>
+              </a>
             </div>
 
             {/* Education */}

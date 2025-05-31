@@ -1,87 +1,78 @@
-
+// src/components/CursorCometTrail.tsx
 import { useState, useEffect, useRef } from 'react';
 
 interface TrailPoint {
   x: number;
   y: number;
   id: number;
-  timestamp: number;
+  dx: number;
+  dy: number;
 }
 
-const CursorTrail = () => {
+const CursorCometTrail = () => {
   const [trail, setTrail] = useState<TrailPoint[]>([]);
-  const [isHovering, setIsHovering] = useState(false);
-  const requestRef = useRef<number>();
   const trailLength = 20;
-  let idCounter = 0;
+  const idRef = useRef(0);
+  const prevPos = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const newPoint: TrailPoint = {
+    if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) return;
+
+    const handleMove = (e: MouseEvent) => {
+      const dx = prevPos.current ? e.clientX - prevPos.current.x : 0;
+      const dy = prevPos.current ? e.clientY - prevPos.current.y : 0;
+      prevPos.current = { x: e.clientX, y: e.clientY };
+
+      const point: TrailPoint = {
         x: e.clientX,
         y: e.clientY,
-        id: idCounter++,
-        timestamp: Date.now()
+        dx,
+        dy,
+        id: idRef.current++,
       };
 
-      setTrail(prevTrail => {
-        const newTrail = [newPoint, ...prevTrail];
-        return newTrail.slice(0, trailLength);
-      });
+      setTrail(prev => [point, ...prev.slice(0, trailLength - 1)]);
     };
 
-    const handleMouseEnter = () => setIsHovering(true);
-    const handleMouseLeave = () => setIsHovering(false);
-
-    // Check for interactive elements
-    const interactiveElements = document.querySelectorAll('button, a, [role="button"], input, textarea');
-    
-    interactiveElements.forEach(el => {
-      el.addEventListener('mouseenter', handleMouseEnter);
-      el.addEventListener('mouseleave', handleMouseLeave);
-    });
-
-    window.addEventListener('mousemove', handleMouseMove);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      interactiveElements.forEach(el => {
-        el.removeEventListener('mouseenter', handleMouseEnter);
-        el.removeEventListener('mouseleave', handleMouseLeave);
-      });
-      if (requestRef.current) {
-        cancelAnimationFrame(requestRef.current);
-      }
-    };
+    window.addEventListener('mousemove', handleMove);
+    return () => window.removeEventListener('mousemove', handleMove);
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-50">
+    <div className="fixed inset-0 pointer-events-none z-[9999]">
       {trail.map((point, index) => {
         const progress = index / trailLength;
-        const size = Math.max(2, 16 * (1 - progress * 0.9));
-        const opacity = Math.max(0, 1 - progress * 1.2);
-        const blur = progress * 1.5;
-        
+        const isHead = index === 0;
+        const size = isHead ? 34 : 28 - progress * 22;
+        const opacity = isHead ? 0.95 : 0.4 - progress * 0.35;
+        const blur = isHead ? 16 : 6 + progress * 8;
+        const angle = Math.atan2(point.dy, point.dx) * (180 / Math.PI);
+        const rotate = `rotate(${angle}deg)`;
+
+        const headGlow = isHead
+          ? `0 0 40px rgba(255,255,255,0.9), 0 0 80px rgba(120,200,255,0.6)`
+          : `0 0 ${size}px rgba(200,220,255,0.2)`;
+
+        const background = isHead
+          ? `radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(180,220,255,0.6) 50%, transparent 80%)`
+          : `linear-gradient(90deg, rgba(255,255,255,${opacity}) 0%, rgba(120,200,255,0) 100%)`;
+
         return (
           <div
             key={point.id}
-            className={`absolute rounded-full transition-all duration-100 ${
-              isHovering 
-                ? 'bg-gradient-to-r from-cyan-400 via-pink-400 to-purple-500 shadow-lg' 
-                : 'bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-600 shadow-md'
-            }`}
+            className="absolute"
             style={{
-              left: point.x - size / 2,
-              top: point.y - size / 2,
+              left: `${point.x - size / 2}px`,
+              top: `${point.y - size / 2}px`,
               width: `${size}px`,
-              height: `${size}px`,
+              height: `${size * 0.5}px`,
+              background,
+              borderRadius: '50%',
               opacity,
               filter: `blur(${blur}px)`,
-              boxShadow: isHovering 
-                ? `0 0 ${size * 2}px rgba(236, 72, 153, 0.6), 0 0 ${size * 4}px rgba(147, 51, 234, 0.3)`
-                : `0 0 ${size * 1.5}px rgba(168, 85, 247, 0.5), 0 0 ${size * 3}px rgba(99, 102, 241, 0.2)`,
-              transitionDelay: `${index * 10}ms`,
+              boxShadow: headGlow,
+              transform: rotate,
+              transition: 'all 40ms ease-out',
             }}
           />
         );
@@ -90,4 +81,4 @@ const CursorTrail = () => {
   );
 };
 
-export default CursorTrail;
+export default CursorCometTrail;
